@@ -178,6 +178,9 @@ type Config struct {
 	// When set to true, a key without flags is treated as if all flags are enabled.
 	// This behavior is consistent with GPG.
 	InsecureAllowAllKeyFlagsWhenMissing bool
+
+	// DisableCriticalSubpackets specifies if critical subpackets should be disabled.
+	DisableCriticalSubpackets bool
 }
 
 func (c *Config) Random() io.Reader {
