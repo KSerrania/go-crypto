@@ -1258,7 +1258,7 @@ func (sig *Signature) buildSubpackets(issuer PublicKey, config *Config) (subpack
 	creationTime := make([]byte, 4)
 	binary.BigEndian.PutUint32(creationTime, uint32(sig.CreationTime.Unix()))
 	// Signature Creation Time
-	subpackets = append(subpackets, outputSubpacket{true, creationTimeSubpacket, true, creationTime})
+	subpackets = append(subpackets, outputSubpacket{true, creationTimeSubpacket, !config.DisableCriticalSubpackets, creationTime})
 	// Signature Expiration Time
 	if sig.SigLifetimeSecs != nil && *sig.SigLifetimeSecs != 0 {
 		sigLifetime := make([]byte, 4)
@@ -1357,7 +1357,7 @@ func (sig *Signature) buildSubpackets(issuer PublicKey, config *Config) (subpack
 		if sig.FlagGroupKey {
 			flags |= KeyFlagGroupKey
 		}
-		subpackets = append(subpackets, outputSubpacket{true, keyFlagsSubpacket, !config.DisableCriticalSubpackets, []byte{flags}})
+		subpackets = append(subpackets, outputSubpacket{true, keyFlagsSubpacket, true, []byte{flags}})
 	}
 	// Signer's User ID
 	if sig.SignerUserId != nil {
