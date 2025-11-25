@@ -18,7 +18,17 @@ type UserId struct {
 	Name, Comment, Email string
 }
 
-func hasInvalidCharacters(s string) bool {
+func nameHasInvalidCharacters(s string) bool {
+	for _, c := range s {
+		switch c {
+		case '<', '>', 0:
+			return true
+		}
+	}
+	return false
+}
+
+func commentOrEmailHasInvalidCharacters(s string) bool {
 	for _, c := range s {
 		switch c {
 		case '(', ')', '<', '>', 0:
@@ -32,12 +42,9 @@ func hasInvalidCharacters(s string) bool {
 // characters. The invalid characters are '\x00', '(', ')', '<' and '>'
 func NewUserId(name, comment, email string) *UserId {
 	// RFC 4880 doesn't deal with the structure of userid strings; the
-	// name, comment and email form is just a convention. However, there's
-	// no convention about escaping the metacharacters and GPG just refuses
-	// to create user ids where, say, the name contains a '('. We mirror
-	// this behaviour.
+	// name, comment and email form is just a convention.
 
-	if hasInvalidCharacters(name) || hasInvalidCharacters(comment) || hasInvalidCharacters(email) {
+	if nameHasInvalidCharacters(name) || commentOrEmailHasInvalidCharacters(comment) || commentOrEmailHasInvalidCharacters(email) {
 		return nil
 	}
 
