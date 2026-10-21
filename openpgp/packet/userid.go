@@ -39,7 +39,8 @@ func commentOrEmailHasInvalidCharacters(s string) bool {
 }
 
 // NewUserId returns a UserId or nil if any of the arguments contain invalid
-// characters. The invalid characters are '\x00', '(', ')', '<' and '>'
+// characters. The name may not contain '\x00', '<' or '>'; the comment and
+// email may not contain '\x00', '(', ')', '<' or '>'.
 func NewUserId(name, comment, email string) *UserId {
 	// RFC 4880 doesn't deal with the structure of userid strings; the
 	// name, comment and email form is just a convention.
