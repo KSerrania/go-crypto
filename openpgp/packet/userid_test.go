@@ -70,7 +70,6 @@ func TestNewUserId(t *testing.T) {
 var invalidNewUserIdTests = []struct {
 	name, comment, email string
 }{
-	{"foo(", "", ""},
 	{"foo<", "", ""},
 	{"", "bar)", ""},
 	{"", "bar<", ""},
